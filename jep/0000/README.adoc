@@ -1,4 +1,4 @@
-= JEP-0000: :bulb: Title :bulb:
+= JEP-0000: BlueOcean Extensibility
 :toc: preamble
 :toclevels: 3
 ifdef::env-github[]
@@ -9,18 +9,6 @@ ifdef::env-github[]
 :warning-caption: :warning:
 endif::[]
 
-.**JEP Template**
-[TIP]
-====
-In this document, all text in a "Tip" block (or inline text with with a ":bulb:" on either side)
-MUST be removed and/or replaced with text appropriate to this JEP before submission.
-
-Sections may include aditional help and advice in comments.
-":bulb:" entries in comments only need to be filled in if that text is uncommented.
-
-See https://github.com/jenkinsci/jep/blob/master/jep/1/README.adoc[JEP-1] for full and accurate description of the JEP process and what is required in each section.
-====
-
 .Metadata
 [cols="2"]
 |===
@@ -28,20 +16,20 @@ See https://github.com/jenkinsci/jep/blob/master/jep/1/README.adoc[JEP-1] for fu
 | 0000
 
 | Title
-| :bulb: Title :bulb:
+| BlueOcean Extensibility
 
 | Sponsor
-| :bulb: Link to github user page :bulb:
+| http://github.com/imeredith[Ivan Meredith]
 
 // Use the script `set-jep-status <jep-number> <status>` to update the status.
 | Status
 | Not Submitted :information_source:
 
 | Type
-| :bulb: Standards, Informational, or Process :bulb:
+| Standards
 
 | Created
-| :bulb: Date :bulb:
+| 2018-05-15
 //
 //
 // Uncomment if there is an associated placeholder JIRA issue.
@@ -78,19 +66,27 @@ See https://github.com/jenkinsci/jep/blob/master/jep/1/README.adoc[JEP-1] for fu
 
 == Abstract
 
-[TIP]
-====
-Give a short (200 word) description of the technical issue addressed.
-====
+BlueOcean extensiblity is the way in which Jenkins plugin developers extend the BlueOcean UI. This JEP describes how extensions are defined, implemented, packaged, and loaded at runtime.    
 
 == Specification
 
-[TIP]
-====
-Provide a detailed specification what is being proposed.
-Be as technical and detailed as needed to allow new or existing Jenkins developers
-to reasonably understand the scope/impact of an implementation.
-====
+=== Extension Store
+This is the only global object exposed by the extension system; it stores Extension Points and Extensions implementing it. This is where an extension registry is stored and during javascript execution offers lookup capability to apply the Extension Points or call the rendering function.
+
+[source,javascript]
+----
+window.ExtensionStore.getExtensions(extensionPointId)<1>
+----
+<1> Extension Store available globally from the window object.
+
+
+
+Jenkins relies on reflection to find extensions. This is not possible in Javascript and therefore extensions need to be explicitly registered during the loading of the application. The above code is equivalent to doing the following in Jenkins
+:bulb:
+Jenkins.getExtensionList(<Extension.class>)
+
+Usage examples will be in following sections as Extension Points and Extension Implementations are defined - window.ExtensionStore will be abbreviated to ExtensionStore.
+
 
 == Motivation
 
