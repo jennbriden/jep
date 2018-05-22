@@ -70,30 +70,63 @@ BlueOcean extensiblity is the way in which Jenkins plugin developers extend the 
 
 == Specification
 
-=== Extension Store
-This is the only global object exposed by the extension system; it stores Extension Points and Extensions implementing it. This is where an extension registry is stored and during javascript execution offers lookup capability to apply the Extension Points or call the rendering function.
+[#extensionfunction]
+=== Extension function
+
+Extensions are implemented as functions, pecific extension points will define what contract the extensions must implement. The basic format is
 
 [source,javascript]
 ----
-window.ExtensionStore.getExtensions(extensionPointId)<1>
+function(context) {
+    // Extension code
+}
 ----
-<1> Extension Store available globally from the window object.
+The extension point defines what context it will give extensions. This could be contextual data or it could be callback functions to provide data to the extension point
 
+==== Extensions that render
 
+Extensions that want to render UI are a specialized version of the general extension function. Extension points will pass in a `container` div for the extension to render into.
 
-Jenkins relies on reflection to find extensions. This is not possible in Javascript and therefore extensions need to be explicitly registered during the loading of the application. The above code is equivalent to doing the following in Jenkins
-:bulb:
+[source,javascript]
+----
+function(context) {
+    context.container.innerHTML = "<p>No test results</p>"
+}
+----
+=== Extension Store
+This is the only global object exposed by the extension system; it stores Extension Points and Extensions implementing it. This is where an extension registry is stored and during javascript execution offers lookup capability to apply the Extension Points or call the rendering function.
+
+==== Registering extensions
+
+Extensions in Jenkins are normally discovered with the `@Extension` annotation. Javascript has no runtime methods to discover extensions automatically, so an explicit call to `register()` is needed.
+
+[source,javascript]
+----
+window.extensionStore.register(extensionPointId, callbackFn)<1>
+----
+<1> Parameters
+* extensionPointId - Unique string that idenifies the extension point.
+* callbackFn - <<extensionfunction>>
+
+==== Listing extensions
+[source,javascript]
+----
+window.extensionStore.getExtensions(extensionPointId)
+----
+
+Jenkins relies on reflection to find extensions. This is not possible in Javascript and therefore extensions need to be explicitly registered during the loading of the application. The above example is equivalent to doing the following in Jenkins
+
+[source,java]
+----
 Jenkins.getExtensionList(<Extension.class>)
-
-Usage examples will be in following sections as Extension Points and Extension Implementations are defined - window.ExtensionStore will be abbreviated to ExtensionStore.
-
+----
 
 == Motivation
 
-[TIP]
-====
-Explain why the existing code base or process is inadequate to address the problem that the JEP solves.
-====
+BlueOcean has an extensibility system built around https://github.com/jenkinsci/js-builder[js-builder] and https://github.com/jenkinsci/js-modules[js-modules]. The issues that this JEP addresses are
+
+* Javascript versioning issues
+
 
 == Reasoning
 
