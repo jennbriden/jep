@@ -141,7 +141,7 @@ ES5 compatibility was chosen to allow plugin developers to have the greatest fle
 
 == Backwards Compatibility
 
-
+There are only a few BlueOcean plugins, however they will need to be updated to use this API. An exactly plan on migration needs to be worked out. 
 
 == Security
 
