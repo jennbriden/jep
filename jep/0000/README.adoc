@@ -1,0 +1,131 @@
+= JEP-0000: BlueOcean Extensibility
+:toc: preamble
+:toclevels: 3
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+.Metadata
+[cols="2"]
+|===
+| JEP
+| 0000
+
+| Title
+| BlueOcean extensibility
+
+| Sponsor
+| http://github.com/imeredith[Ivan Meredith]
+
+// Use the script `set-jep-status <jep-number> <status>` to update the status.
+| Status
+| Not Submitted
+
+| Type
+| Standards
+
+| Created
+| 2018-05-22
+//
+//
+// Uncomment if there is an associated placeholder JIRA issue.
+//| JIRA
+//| :bulb: https://issues.jenkins-ci.org/browse/JENKINS-nnnnn[JENKINS-nnnnn] :bulb:
+//
+//
+// Uncomment if there will be a BDFL delegate for this JEP.
+//| BDFL-Delegate
+//| :bulb: Link to github user page :bulb:
+//
+//
+// Uncomment if discussion will occur in forum other than jenkinsci-dev@ mailing list.
+//| Discussions-To
+//| :bulb: Link to where discussion and final status announcement will occur :bulb:
+//
+//
+// Uncomment if this JEP depends on one or more other JEPs.
+//| Requires
+//| :bulb: JEP-NUMBER, JEP-NUMBER... :bulb:
+//
+//
+// Uncomment and fill if this JEP is rendered obsolete by a later JEP
+//| Superseded-By
+//| :bulb: JEP-NUMBER :bulb:
+//
+//
+// Uncomment when this JEP status is set to Accepted, Rejected or Withdrawn.
+//| Resolution
+//| :bulb: Link to relevant post in the jenkinsci-dev@ mailing list archives :bulb:
+
+|===
+
+
+== Abstract
+
+BlueOcean provides a modern UI for Jenkins, however it is missing the ecosystem of plugins that is a key component of Jenkins success. BlueOcean extensibility aims to create a platform on which an ecosystem can grow.
+
+== Specification
+
+BlueOcean extensibility covers a number of areas that will be covered in subsequent JEP docuements. This specification describes the problem, and overall proposed solution.
+
+=== Target Audience
+
+BlueOcean Extensibility is targeted at Jenkins plugin developers who want to extend the BlueOcean UI to provide functionaility not in the core BlueOcean plugin.
+
+=== Scope of BlueOcean Extensbility
+
+The scope of BlueOcean extensibility will be described in more detail in future documents but this section provides an overview of the core aspects that will make up BlueOcean extensibility
+
+==== BlueOcean Extensibility API
+
+The BlueOcean Extensbility API is the general mechanism that plugin developers will use to write, register and lookup extensions. This will be designed to be as simple as possible and only rely on ES5 to allow flexibility in the tooling plugin developers can use.
+
+==== BlueOcean REST API Extensibility
+
+BlueOcean's stapler to provide a REST api for BlueOcean. the BlueOcean REST api Extensbility JEP will describe how plugin developers can expose data for BlueOcean plugins to take advantage of. This will most likely be mostly a documentation effort.
+
+==== BlueOcean Plugin Packaging
+
+The BlueOcean Plugin Packaging will focus on the build chain that packages extension code into Jenkins plugins.
+
+There are several areas to be explored here
+
+* Javascript Bundling
+* CSS
+* i18n
+
+==== BlueOcean SDK
+
+The BlueOcean SDK will provide a component library to developers to help them develop UI with the same look and feel as BlueOcean. It will also document the above areas as it pertains to developers, as well as providing best practises for developers.
+
+== Motivation
+
+Jenkins has a vibrant ecosystem, and is something that BlueOcean is lacking. The goal of this JEP is to fix that.
+ 
+== Reasoning
+
+While BlueOcean has some support for extensibility today, there a some problems that need to be addressed. The subsequent JEPs will explain why design decisions have been made as they relate to the current extensbility system.
+
+== Backwards Compatibility
+
+This JEP will break current BlueOcean extensibility, however there are few plugins external to BlueOcean so this is most likely a minor issue.
+
+An exact list of plugins affected needs to be compiled. Plugins will either need to be updated at the same time this new extensibility model is released, or another interim solution will need to be found.
+
+== Security
+
+There are no security implications outside of what exists in current Jenkins plugins. Specificially Jenkins plugins are assumed not to be bad actors with regards to Javascript that they contribute to the UI.
+
+== Infrastructure Requirements
+
+There are no new infrastructure requirements related to this proposal.
+
+== Testing
+
+There are no testing issues related to this proposal.
+
+== References
